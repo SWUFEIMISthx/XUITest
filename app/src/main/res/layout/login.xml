@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="200dp"
+        android:layout_width="240dp"
         android:layout_height="200dp"
         android:layout_gravity="center_horizontal"
         app:srcCompat="@drawable/logo_trans"
@@ -19,8 +19,8 @@
     <TextView
         style="@style/TextStyle.Title"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:text="登 录"
+        android:layout_marginTop="5dp"
+        android:text="登  录"
         android:textSize="30sp" />
 
     <LinearLayout
@@ -57,6 +57,32 @@
 
         </FrameLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:tint="?attr/colorAccent"
+                app:srcCompat="@drawable/ic_password" />
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/et_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:hint="@string/tip_please_input_pwd"
+                android:inputType="number"
+                app:met_clearButton="true"
+                app:met_errorMessage="@string/tip_password_error"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="@string/title_password"
+                app:met_regexp="@string/regex_password" />
+
+        </FrameLayout>
+
 
         <FrameLayout
             android:id="@+id/fl_verify_code"
@@ -69,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
                 android:tint="?attr/colorAccent"
-                app:srcCompat="@drawable/ic_password" />
+                app:srcCompat="@drawable/ic_cloud" />
 
             <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                 android:id="@+id/et_verify_code"
@@ -139,7 +165,15 @@
         android:id="@+id/btn_login"
         style="@style/SuperButton.Primary.Login"
         android:layout_marginTop="16dp"
-        android:text="@string/title_login_register" />
+        android:textSize="16dp"
+        android:text="@string/title_login" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+        android:id="@+id/btn_register"
+        style="@style/SuperButton.Primary.Login"
+        android:layout_marginTop="16dp"
+        android:textSize="16dp"
+        android:text="@string/title_register" />
 
     <FrameLayout
         android:layout_width="match_parent"

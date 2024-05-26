@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">雪莉爱丝</string>
+    <string name="app_name">LEMON BLISS</string>
     <string name="tip_bluetooth_permission">是否允许打开蓝牙？</string>
     <string name="lab_yes">是</string>
     <string name="lab_no">否</string>
@@ -416,6 +416,7 @@
     <string name="lab_login_by_verify_code">验证码登录</string>
     <string name="lab_login_by_password">密码登录</string>
     <string name="tip_please_input_phone_number">请输入手机号码</string>
+    <string name="tip_please_input_pwd">请输入密码</string>
     <string name="title_phone_number">手机号码</string>
     <string name="title_password">密码</string>
     <string name="title_old_password">旧密码</string>
@@ -476,4 +477,10 @@ The lake was formed about 2 million years ago and is a part of the Lake Tahoe Ba
     <string name="description_navigation_main">导航条</string>
     <string name="description_create_from_view_display">截图当前界面显示</string>
     <string name="description_demo">演示</string>
+
+
+
+    <string name="order">点单</string>
+    <string name="bill">订单</string>
+    <string name="shop_car">购物车</string>
 </resources>
