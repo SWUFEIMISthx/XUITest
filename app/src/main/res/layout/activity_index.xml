@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IndexActivity">
+    tools:context=".LoginActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             tools:ignore="VisualLintButtonSize" />
 
         <RadioButton
-            android:id="@+id/rb_shop"
+            android:id="@+id/rb_shop_car"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
