@@ -485,4 +485,5 @@ The lake was formed about 2 million years ago and is a part of the Lake Tahoe Ba
     <string name="my_school_location">西南财经大学（柳林校区）</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="SizeSelection">选规格</string>
 </resources>
