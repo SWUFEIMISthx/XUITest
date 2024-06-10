@@ -20,6 +20,8 @@
         style="@style/TextStyle.Title"
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"
+
+
         android:text="登  录"
         android:textSize="30sp" />
 
