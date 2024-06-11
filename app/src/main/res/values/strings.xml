@@ -437,7 +437,7 @@
     <string name="title_privacy_protocol">隐私政策</string>
     <string name="agree_protocol">我已阅读并同意</string>
     <string name="lab_and">和</string>
-
+    <string name="verify_code_image_desc">验证码图片，点击以生成新的验证码</string>
     <string name="sync">Sync</string>
     <string name="alarm">Alarm</string>
     <string name="camera">Camera</string>

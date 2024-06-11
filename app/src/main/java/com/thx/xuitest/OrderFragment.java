@@ -20,17 +20,13 @@ import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-
 public class OrderFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private final ArrayList<LemonTea> lemon_teas_array = new ArrayList<>();
+    private final ArrayList<Drinks> lemon_teas_array = new ArrayList<>();
     private final ArrayList<RightListBean> titles_array = new ArrayList<>();
     private RecyclerView right_list_view;
     private RecyclerView left_list_view;
@@ -40,62 +36,58 @@ public class OrderFragment extends Fragment {
     private AlertDialog choose_dialog = null;
     private AlertDialog.Builder builder = null;
     private View view_choose;
-    private Context mContext = this.getActivity();
-
-
+    private Context mContext;
 
     public OrderFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-
-
     @SuppressLint({"CutPasteId", "InflateParams"})
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
-        SearchView mSearch = (SearchView) view.findViewById(R.id.my_search);
+        mContext = this.getActivity();
+
+        SearchView mSearch = view.findViewById(R.id.my_search);
         int id = mSearch.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView text_search = (TextView) mSearch.findViewById(id);
+        TextView text_search = mSearch.findViewById(id);
         text_search.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 
+        right_title = view.findViewById(R.id.Top_drinkType);
+        right_list_view = view.findViewById(R.id.rec_right);
+        left_list_view = view.findViewById(R.id.rec_left);
+        searchView = view.findViewById(R.id.my_search);
 
-        right_title = (TextView) view.findViewById(R.id.Top_drinkType);
-        right_list_view = (RecyclerView) view.findViewById(R.id.rec_right);
-        left_list_view = (RecyclerView) view.findViewById(R.id.rec_left);
-        searchView = (SearchView) view.findViewById(R.id.my_search);
         builder = new AlertDialog.Builder(this.getActivity());
-        builder.setView(view_choose);
         view_choose = inflater.inflate(R.layout.order_details, null, false);
+        builder.setView(view_choose);
         builder.setCancelable(false);
         choose_dialog = builder.create();
+
         view_choose.findViewById(R.id.button_exit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String size = "中杯";
                 String tempearture = "全冰";
                 String sugar = "全糖";
-                RadioGroup radiogroup = (RadioGroup) view_choose.findViewById(R.id.radioGroup_size);
-                for(int i=0;i<radiogroup.getChildCount();i++){
+                RadioGroup radiogroup = view_choose.findViewById(R.id.radioGroup_size);
+                for (int i = 0; i < radiogroup.getChildCount(); i++) {
                     RadioButton rd = (RadioButton) radiogroup.getChildAt(i);
-                    if(rd.isChecked()){
+                    if (rd.isChecked()) {
                         size = String.valueOf(rd.getText());
                     }
                 }
-                radiogroup = (RadioGroup) view_choose.findViewById(R.id.radioGroup_ice);
-                for(int i=0;i<radiogroup.getChildCount();i++){
+                radiogroup = view_choose.findViewById(R.id.radioGroup_ice);
+                for (int i = 0; i < radiogroup.getChildCount(); i++) {
                     RadioButton rd = (RadioButton) radiogroup.getChildAt(i);
-                    if(rd.isChecked()){
+                    if (rd.isChecked()) {
                         tempearture = String.valueOf(rd.getText());
                     }
                 }
-                radiogroup = (RadioGroup) view_choose.findViewById(R.id.radioGroup_sugar);
-                for(int i=0;i<radiogroup.getChildCount();i++){
+                radiogroup = view_choose.findViewById(R.id.radioGroup_sugar);
+                for (int i = 0; i < radiogroup.getChildCount(); i++) {
                     RadioButton rd = (RadioButton) radiogroup.getChildAt(i);
-                    if(rd.isChecked()){
+                    if (rd.isChecked()) {
                         sugar = String.valueOf(rd.getText());
                     }
                 }
@@ -106,29 +98,31 @@ public class OrderFragment extends Fragment {
                 System.out.println("drinkName:" + String.valueOf(drinkName.getText()).split(" #")[0]);
                 Drinks drink = new Drinks(Integer.parseInt(String.valueOf(drinkName.getText()).split(" #")[1]));
                 Flavors flavor = new Flavors(size, tempearture, sugar);
-                TextView num_textview = (TextView) view_choose.findViewById(R.id.textView_drinkNumber);
+                TextView num_textview = view_choose.findViewById(R.id.textView_drinkNumber);
                 int number = Integer.parseInt((String) num_textview.getText());
                 OrderedDrinks od = new OrderedDrinks(drink, flavor, number);
                 choose_dialog.dismiss();
             }
         });
+
         view_choose.findViewById(R.id.button_subtract).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView numberText = (TextView) view_choose.findViewById(R.id.textView_drinkNumber);
+                TextView numberText = view_choose.findViewById(R.id.textView_drinkNumber);
                 int i = Integer.parseInt(String.valueOf(numberText.getText()));
-                if(i > 1){
+                if (i > 1) {
                     i--;
                 }
                 numberText.setText(String.valueOf(i));
             }
         });
+
         view_choose.findViewById(R.id.button_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView numberText = (TextView) view_choose.findViewById(R.id.textView_drinkNumber);
+                TextView numberText = view_choose.findViewById(R.id.textView_drinkNumber);
                 int i = Integer.parseInt(String.valueOf(numberText.getText()));
-                if(i < 100){
+                if (i < 100) {
                     i++;
                 }
                 numberText.setText(String.valueOf(i));
@@ -136,6 +130,7 @@ public class OrderFragment extends Fragment {
         });
 
         initData();
+
         right_LLM = new LinearLayoutManager(this.getActivity());
         right_list_view.setLayoutManager(right_LLM);
         RightAdapter rightAdapter = new RightAdapter(inflater, lemon_teas_array);
@@ -146,35 +141,36 @@ public class OrderFragment extends Fragment {
         LeftAdapter leftAdapter = new LeftAdapter(titles_array);
         left_list_view.setAdapter(leftAdapter);
 
-
         right_list_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int firstItemPosition = right_LLM.findFirstVisibleItemPosition();
                 leftAdapter.setCurrentPosition(firstItemPosition);
-                if(!Objects.equals(leftAdapter.getCurrentTitle(), "")){
+                if (!Objects.equals(leftAdapter.getCurrentTitle(), "")) {
                     right_title.setText(leftAdapter.getCurrentTitle());
                 }
             }
         });
+
         leftAdapter.setOnItemClickListener(new LeftAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(int rightPosition) {
-                if(right_LLM != null){
-                    right_LLM.scrollToPositionWithOffset(rightPosition,0);
+                if (right_LLM != null) {
+                    right_LLM.scrollToPositionWithOffset(rightPosition, 0);
                 }
             }
         });
+
         rightAdapter.buttonSetOnClick(new RightAdapter.MyClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onclick(View v, int position) {
                 choose_dialog.show();
-                if(view_choose != null){
-                    LemonTea lemontea = lemon_teas_array.get(position);
-                    ImageView img =view_choose.findViewById(R.id.choose_drink_img);
-                    img.setImageResource(lemontea.getImageResId() - 1);
+                if (view_choose != null) {
+                    Drinks lemontea = lemon_teas_array.get(position);
+                    ImageView img = view_choose.findViewById(R.id.choose_drink_img);
+                    Glide.with(mContext).load(lemontea.getImageUrl()).into(img);
                     TextView name = view_choose.findViewById(R.id.choose_drinkName);
                     name.setText(lemontea.get_name() + " #" + (lemontea.get_number() + 1));
                     TextView intro = view_choose.findViewById(R.id.choose_drinkIntro);
@@ -184,6 +180,7 @@ public class OrderFragment extends Fragment {
                 }
             }
         });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -192,9 +189,9 @@ public class OrderFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String queryText) {
-                for(int i=0;i<lemon_teas_array.size();i++){
-                    if(lemon_teas_array.get(i).get_name().contains(queryText)){
-                        if(right_LLM != null){
+                for (int i = 0; i < lemon_teas_array.size(); i++) {
+                    if (lemon_teas_array.get(i).get_name().contains(queryText)) {
+                        if (right_LLM != null) {
                             right_LLM.scrollToPositionWithOffset(i, 0);
                             break;
                         }
@@ -203,9 +200,36 @@ public class OrderFragment extends Fragment {
                 return true;
             }
         });
+
         return view;
     }
-    private void initData(){
 
+    private void initData() {
+        lemon_teas_array.add(new Drinks("原谅绿柠檬茶", "\uD83D\uDC4D 招牌推荐",
+                14f, "精选绿茶与柠檬，产生美妙味道，展现泰式风味", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E6%8B%9B%E7%89%8C%E6%8E%A8%E8%8D%90_%E5%8E%9F%E8%B0%85%E7%BB%BF.jpg"));
+        lemon_teas_array.add(new Drinks("鸭屎香柠檬茶", 14f, "酸甜解渴，清爽清新，浓郁的茶香", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E6%8B%9B%E7%89%8C%E6%8E%A8%E8%8D%90_%E9%B8%AD%E5%B1%8E%E9%A6%99.jpg"));
+        lemon_teas_array.add(new Drinks("手爆前男友柠檬茶", 14f, "酸甜解渴，直击灵魂", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E6%8B%9B%E7%89%8C%E6%8E%A8%E8%8D%90_%E6%89%8B%E7%88%86%E5%89%8D%E7%94%B7%E5%8F%8B.jpg"));
+        lemon_teas_array.add(new Drinks("手爆绿茶妹柠檬茶", 12f, "绿茶作为基底，满口清香", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E6%8B%9B%E7%89%8C%E6%8E%A8%E8%8D%90_%E7%BB%BF%E8%8C%B6%E5%A6%B9.jpg"));
+
+        lemon_teas_array.add(new Drinks("大菠妹（菠萝）柠檬茶", "\uD83C\uDF53 果茶推荐",
+                14f, "新鲜柠檬与菠萝，茉莉花茶", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E6%9E%9C%E8%8C%B6%E6%8E%A8%E8%8D%90_%E5%A4%A7%E8%8F%A0%E5%A6%B9.jpg"));
+        lemon_teas_array.add(new Drinks("粉红少女（芭乐）柠檬茶", 14f, "红芭乐，新鲜柠檬", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E6%9E%9C%E8%8C%B6%E6%8E%A8%E8%8D%90_%E7%B2%89%E7%BA%A2.jpg"));
+
+        lemon_teas_array.add(new Drinks("和气桃桃", "\uD83C\uDFDD 特色推荐",
+                12f, "乌龙茶，新鲜柠檬", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E7%89%B9%E8%89%B2%E6%8E%A8%E8%8D%90_%E5%92%8C%E6%B0%94%E6%A1%83%E6%A1%83.jpg"));
+        lemon_teas_array.add(new Drinks("白色恋人", 14f, "椰乳遇到酸性的柠檬容易分层，属于正常现象", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E7%89%B9%E8%89%B2%E6%8E%A8%E8%8D%90_%E7%99%BD%E8%89%B2%E6%81%8B%E4%BA%BA.jpg"));
+
+        lemon_teas_array.add(new Drinks("茉莉香鲜奶茶", "\uD83E\uDDCB 奶茶推荐",
+                16f, "纯牛奶，茉莉花茶", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E5%A5%B6%E8%8C%B6%E6%8E%A8%E8%8D%90_%E8%8C%89%E8%8E%89%E9%A6%99.jpg"));
+
+        lemon_teas_array.add(new Drinks("茶冻", "\uD83E\uDDE1 加点小料",
+                1f, "搭配小料更好喝哦", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E5%8A%A0%E7%82%B9%E5%B0%8F%E6%96%99_%E8%8C%B6%E5%86%BB.jpg"));
+        for(int i = 0;i < lemon_teas_array.size(); i++){
+            Drinks temp = lemon_teas_array.get(i);
+            if(temp.get_type() != null){
+                titles_array.add(new RightListBean(i, temp.get_type()));
+            }
+        }
     }
 }
+

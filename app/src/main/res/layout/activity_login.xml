@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -8,20 +7,17 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
+        android:id="@+id/logo_image_view"
         android:layout_width="240dp"
         android:layout_height="200dp"
         android:layout_gravity="center_horizontal"
-        app:srcCompat="@drawable/logo_trans"
         android:contentDescription="@string/app_name"/>
-
 
     <TextView
         style="@style/TextStyle.Title"
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"
-
-
         android:text="登  录"
         android:textSize="30sp" />
 
@@ -85,7 +81,6 @@
 
         </FrameLayout>
 
-
         <FrameLayout
             android:id="@+id/fl_verify_code"
             android:layout_width="match_parent"
@@ -105,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:hint="@string/hint_please_input_verify_code"
-                android:inputType="number"
+                android:inputType="text"
                 app:met_clearButton="false"
                 app:met_errorMessage="@string/tip_verify_code_error"
                 app:met_floatingLabel="normal"
@@ -113,9 +108,8 @@
                 app:met_maxCharacters="4"
                 app:met_regexp="@string/regex_verify_code" />
 
-            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-                android:id="@+id/btn_get_verify_code"
-                style="@style/RoundButton"
+            <ImageView
+                android:id="@+id/img_verify_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -123,15 +117,9 @@
                 android:paddingTop="3dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="3dp"
-                android:text="@string/action_get_verify_code"
-                android:textColor="@color/selector_round_button_main_theme_color"
-                android:textSize="13sp"
-                app:rb_borderColor="@color/selector_round_button_main_theme_color"
-                app:rb_borderWidth="1.5dp"
-                app:rb_radius="15dp" />
+                android:contentDescription="@string/verify_code_image_desc" />
 
         </FrameLayout>
-
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -225,6 +213,5 @@
         </LinearLayout>
 
     </FrameLayout>
-
 
 </LinearLayout>

@@ -34,12 +34,18 @@ public class BillAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+        Order target = getItem(position);
+        if(holder instanceof  BillAdapter.BillViewHolder){
+            ((BillAdapter.BillViewHolder) holder).bindBean(target);
+        }
+        else{
+            throw new IllegalStateException("Illegal State Exception Happened");
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mList.size();
     }
     private static class BillViewHolder extends  RecyclerView.ViewHolder{
         private final TextView TextNumber;

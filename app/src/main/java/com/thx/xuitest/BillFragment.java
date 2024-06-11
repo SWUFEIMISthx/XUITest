@@ -50,7 +50,6 @@ public class BillFragment extends Fragment {
 //     * @param param2 Parameter 2.
 //     * @return A new instance of fragment BillFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static BillFragment newInstance(String userName) {
         BillFragment fragment = new BillFragment();
         Bundle args = new Bundle();
@@ -64,7 +63,7 @@ public class BillFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            userName = getArguments().getString("userName");
+            userName = getArguments().getString("username");
             System.out.println("USERNAME" + userName);
         }
     }
@@ -98,7 +97,39 @@ public class BillFragment extends Fragment {
         order_listview = (RecyclerView) view.findViewById(R.id.RecView_bill);
         LLM = new LinearLayoutManager(this.getActivity());
         order_listview.setLayoutManager(LLM);
+        BillAdapter billAdapter = new BillAdapter(inflater, orders);
+        order_listview.setAdapter(billAdapter);
+        return view;
+    }
+    public void refreshing(){
+        orders.clear();
+        try{
+            FileInputStream fis;
+            if(getContext() != null){
+                fis = getContext().openFileInput(userName + "bill.txt");
+                Reader in = new InputStreamReader(fis, StandardCharsets.UTF_8);
+                LineNumberReader reader = new LineNumberReader(in);
+                String s;
+                while ((s = reader.readLine()) != null){
+                    System.out.println(s);
+                    s = s.replace("\n", "");  // 修改 replace("/n", "") 为 replace("\n", "")
+                    orders.add(0, new Order(s));
+                }
+                reader.close();
+                in.close();
+            }
+        }
+        catch (IOException e){
+            System.out.println("读取错误");
+        }
+        LLM = new LinearLayoutManager(this.getActivity());
+        order_listview.setLayoutManager(LLM);
+        BillAdapter billAdapter = new BillAdapter(layoutInflater, orders);
+        order_listview.setAdapter(billAdapter);  // 确保设置适配器
+    }
 
-        return inflater.inflate(R.layout.fragment_bill, container, false);
+    public void onHiddenChanged(boolean hidden){
+        super.onHiddenChanged(hidden);
+        refreshing();
     }
 }

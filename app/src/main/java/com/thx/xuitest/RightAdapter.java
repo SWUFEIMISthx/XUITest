@@ -1,58 +1,63 @@
 package com.thx.xuitest;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class RightAdapter extends RecyclerView.Adapter{
+public class RightAdapter extends RecyclerView.Adapter<RightAdapter.RightViewHolder> {
 
-    private final ArrayList<LemonTea> mList;
+    private final ArrayList<Drinks> mList;
     private final LayoutInflater mLayoutInflater;
     private MyClickListener mListener;
-    RightAdapter(LayoutInflater layoutInflater, ArrayList<LemonTea> list) {
+
+    RightAdapter(LayoutInflater layoutInflater, ArrayList<Drinks> list) {
         this.mList = list;
         mLayoutInflater = layoutInflater;
         System.out.println("rightAdapter used");
     }
-    public void buttonSetOnClick(MyClickListener mListener)
-    {
-        this.mListener=mListener;
+
+    public void buttonSetOnClick(MyClickListener mListener) {
+        this.mListener = mListener;
     }
-    public interface MyClickListener{
-        public void onclick(View v, int position);
+
+    public interface MyClickListener {
+        void onclick(View v, int position);
     }
-    private LemonTea getItem(int position) {
+
+    private Drinks getItem(int position) {
         return mList.get(position);
     }
+
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RightViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new RightViewHolder(
                 mLayoutInflater.inflate(R.layout.list_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        LemonTea target = getItem(position);
-        if (holder instanceof RightViewHolder) {
-            ((RightViewHolder) holder).bindBean(target);
-            ((RightViewHolder) holder).chooseBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mListener!=null)
-                    {
-                        mListener.onclick(v, holder.getAdapterPosition());
-                    }
+    public void onBindViewHolder(RightViewHolder holder, int position) {
+        Drinks target = getItem(position);
+        holder.bindBean(target);
+        holder.chooseBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onclick(v, holder.getAdapterPosition());
                 }
-            });
-        } else {
-            throw new IllegalStateException("Illegal state Exception onBind viewHolder");
-        }
+            }
+        });
     }
 
     @Override
@@ -60,38 +65,35 @@ public class RightAdapter extends RecyclerView.Adapter{
         return mList.size();
     }
 
-    private class RightViewHolder extends RecyclerView.ViewHolder {
+    static class RightViewHolder extends RecyclerView.ViewHolder {
         private final TextView drinkType;
         private final TextView drinkName;
         private final TextView drinkIntro;
         private final TextView drinkPrice;
-        private Button chooseBt;
+        private final Button chooseBt;
         private final ImageView drinkImg;
 
         RightViewHolder(View itemView) {
             super(itemView);
-            drinkType = (TextView) itemView.findViewById(R.id.Text_drinkType);
-            drinkName = (TextView) itemView.findViewById(R.id.Text_drinkName);
-            drinkIntro = (TextView) itemView.findViewById(R.id.Text_drinkIntro);
-            drinkPrice = (TextView) itemView.findViewById(R.id.Text_drinkPrice);
-            drinkImg = (ImageView) itemView.findViewById(R.id.img_drink);
-            chooseBt = (Button) itemView.findViewById(R.id.BT_choose);
+            drinkType = itemView.findViewById(R.id.Text_drinkType);
+            drinkName = itemView.findViewById(R.id.Text_drinkName);
+            drinkIntro = itemView.findViewById(R.id.Text_drinkIntro);
+            drinkPrice = itemView.findViewById(R.id.Text_drinkPrice);
+            drinkImg = itemView.findViewById(R.id.img_drink);
+            chooseBt = itemView.findViewById(R.id.BT_choose);
         }
 
-        void bindBean(final LemonTea bean) {
-            drinkName.setText(bean.get_name()+"  #"+(bean.get_number()+1));
-            if(bean.get_type()!=null)
-            {
+        @SuppressLint({"SetTextI18n", "DefaultLocale"})
+        void bindBean(final Drinks bean) {
+            drinkName.setText(bean.get_name() + "  #" + (bean.get_number() + 1));
+            if (bean.get_type() != null) {
                 drinkType.setText(bean.get_type());
-            }
-            else
-            {
+            } else {
                 drinkType.setText(null);
             }
-            drinkImg.setImageResource(bean.getImageResId());
+            Glide.with(itemView.getContext()).load(bean.getImageUrl()).into(drinkImg);
             drinkPrice.setText(String.format("￥ %.0f", bean.get_price()));
             drinkIntro.setText(bean.get_introduction());
         }
     }
 }
-
