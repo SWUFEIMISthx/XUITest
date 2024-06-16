@@ -21,8 +21,11 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.xuexiang.xui.widget.textview.MarqueeTextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class OrderFragment extends Fragment {
@@ -38,6 +41,8 @@ public class OrderFragment extends Fragment {
     private View view_choose;
     private Context mContext;
 
+    private MarqueeTextView marqueeTextView;
+
     public OrderFragment() {
         // Required empty public constructor
     }
@@ -47,6 +52,9 @@ public class OrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         mContext = this.getActivity();
+
+        marqueeTextView = view.findViewById(R.id.marqueeTextView);
+        setupMarqueeText();
 
         SearchView mSearch = view.findViewById(R.id.my_search);
         int id = mSearch.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
@@ -95,8 +103,7 @@ public class OrderFragment extends Fragment {
                 //加入购物车的实现
 
                 TextView drinkName = view_choose.findViewById(R.id.choose_drinkName);
-                System.out.println("drinkName:" + String.valueOf(drinkName.getText()).split(" #")[0]);
-                Drinks drink = new Drinks(Integer.parseInt(String.valueOf(drinkName.getText()).split(" #")[1]));
+                Drinks drink = findDrinkByName(String.valueOf(drinkName.getText()));
                 Flavors flavor = new Flavors(size, tempearture, sugar);
                 TextView num_textview = view_choose.findViewById(R.id.textView_drinkNumber);
                 int number = Integer.parseInt((String) num_textview.getText());
@@ -172,7 +179,7 @@ public class OrderFragment extends Fragment {
                     ImageView img = view_choose.findViewById(R.id.choose_drink_img);
                     Glide.with(mContext).load(lemontea.getImageUrl()).into(img);
                     TextView name = view_choose.findViewById(R.id.choose_drinkName);
-                    name.setText(lemontea.get_name() + " #" + (lemontea.get_number() + 1));
+                    name.setText(lemontea.get_name());  // 移除序号
                     TextView intro = view_choose.findViewById(R.id.choose_drinkIntro);
                     intro.setText(lemontea.get_introduction());
                     TextView drink_number = view_choose.findViewById(R.id.textView_drinkNumber);
@@ -204,6 +211,17 @@ public class OrderFragment extends Fragment {
         return view;
     }
 
+    private void setupMarqueeText() {
+        List<String> marqueeTexts = Arrays.asList(
+                "欢迎光临 Lemon Bliss! 特别推荐：手爆前男友柠檬茶，酸甜解渴，直击灵魂！",
+                "试试我们的特色茶：和气桃桃，新鲜柠檬和乌龙茶的完美结合。"
+        );
+        marqueeTextView.setSpeed(2)
+                .setDisplaySimpleList(marqueeTexts).startRoll()
+                .setScrollWidth(marqueeTextView.getWidth())
+                .startRoll();
+    }
+
     private void initData() {
         lemon_teas_array.add(new Drinks("原谅绿柠檬茶", "\uD83D\uDC4D 招牌推荐",
                 14f, "精选绿茶与柠檬，产生美妙味道，展现泰式风味", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E6%8B%9B%E7%89%8C%E6%8E%A8%E8%8D%90_%E5%8E%9F%E8%B0%85%E7%BB%BF.jpg"));
@@ -231,5 +249,13 @@ public class OrderFragment extends Fragment {
             }
         }
     }
-}
 
+    private Drinks findDrinkByName(String name) {
+        for (Drinks drink : lemon_teas_array) {
+            if (drink.get_name().equals(name)) {
+                return drink;
+            }
+        }
+        return null;
+    }
+}
