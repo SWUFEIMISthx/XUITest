@@ -4,10 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BillFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:ignore="UselessParent">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/search_view_background"
+            android:queryHint="输入订单编号或日期查询" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecView_bill"

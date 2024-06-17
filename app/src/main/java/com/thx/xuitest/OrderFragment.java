@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -75,6 +76,13 @@ public class OrderFragment extends Fragment {
         view_choose.findViewById(R.id.button_exit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                choose_dialog.dismiss();
+            }
+        });
+
+        view_choose.findViewById(R.id.button_buy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 String size = "中杯";
                 String tempearture = "全冰";
                 String sugar = "全糖";
@@ -101,13 +109,15 @@ public class OrderFragment extends Fragment {
                 }
 
                 //加入购物车的实现
-
                 TextView drinkName = view_choose.findViewById(R.id.choose_drinkName);
                 Drinks drink = findDrinkByName(String.valueOf(drinkName.getText()));
                 Flavors flavor = new Flavors(size, tempearture, sugar);
                 TextView num_textview = view_choose.findViewById(R.id.textView_drinkNumber);
                 int number = Integer.parseInt((String) num_textview.getText());
                 OrderedDrinks od = new OrderedDrinks(drink, flavor, number);
+
+                // 显示Toast提示
+                Toast.makeText(mContext, "加入购物车成功", Toast.LENGTH_SHORT).show();
                 choose_dialog.dismiss();
             }
         });
@@ -241,7 +251,7 @@ public class OrderFragment extends Fragment {
                 16f, "纯牛奶，茉莉花茶", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E5%A5%B6%E8%8C%B6%E6%8E%A8%E8%8D%90_%E8%8C%89%E8%8E%89%E9%A6%99.jpg"));
 
         lemon_teas_array.add(new Drinks("茶冻", "\uD83E\uDDE1 加点小料",
-                1f, "搭配小料更好喝哦", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E5%8A%A0%E7%82%B9%E5%B0%8F%E6%96%99_%E8%8C%B6%E5%86%89.jpg"));
+                1f, "搭配小料更好喝哦", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E5%8A%A0%E7%82%B9%E5%B0%8F%E6%96%99_%E8%8C%B6%E5%86%BB.jpg"));
         for(int i = 0;i < lemon_teas_array.size(); i++){
             Drinks temp = lemon_teas_array.get(i);
             if(temp.get_type() != null){

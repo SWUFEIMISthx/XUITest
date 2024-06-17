@@ -17,8 +17,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -41,6 +44,7 @@ public class ShopCarFragment extends Fragment {
     private View view_bought;
     private View view_default;
     private String username;
+    private boolean isWeChat = true; // 用于标识当前支付方式是否为微信
 
     public ShopCarFragment() {
         // Required empty public constructor
@@ -183,6 +187,15 @@ public class ShopCarFragment extends Fragment {
                 buyDialog.dismiss();
             }
         });
+
+        view_bought.findViewById(R.id.button_switch_payment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isWeChat = !isWeChat;
+                updatePaymentMethod();
+            }
+        });
+
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,11 +206,26 @@ public class ShopCarFragment extends Fragment {
                     if (view_bought != null) {
                         TextView all_cost = view_bought.findViewById(R.id.textView_allCost);
                         all_cost.setText(String.format("价格：￥ %d\n餐位费：￥ %.1f\n总价：￥ %.1f\n请扫描以下二维码进行支付。", drinkCost, serviceCost, drinkCost + serviceCost));
+                        updatePaymentMethod();
                     }
                 }
             }
         });
         return view_default;
+    }
+
+    private void updatePaymentMethod() {
+        ImageView qrCodeImageView = view_bought.findViewById(R.id.imageView3);
+        Button switchButton = view_bought.findViewById(R.id.button_switch_payment);
+        if (isWeChat) {
+            Glide.with(context).load("https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/Wechat.jpg").into(qrCodeImageView);
+            switchButton.setBackgroundColor(getResources().getColor(R.color.blue));
+            switchButton.setText("使用支付宝支付");
+        } else {
+            Glide.with(context).load("https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/Alipay.jpg").into(qrCodeImageView);
+            switchButton.setBackgroundColor(getResources().getColor(R.color.green_btn_color_normal));
+            switchButton.setText("使用微信支付");
+        }
     }
 
     @SuppressLint("DefaultLocale")
@@ -231,7 +259,6 @@ public class ShopCarFragment extends Fragment {
         }
         textView_cost.setText(String.format("价格：￥ %d \n餐位费：￥ %.1f", drinkCost, serviceCost));
     }
-
 
     @Override
     public void onHiddenChanged(boolean hidden) {
