@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText ET_password;
     private com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText ET_verifyCode;
     private ImageView mImgVerifyCode;
+    private CheckBox cbProtocol;
     private static final String TAG = "LoginActivity";
     private String mCurrentVerifyCode;
 
@@ -45,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         ET_password = findViewById(R.id.et_pwd);
         ET_verifyCode = findViewById(R.id.et_verify_code);
         mImgVerifyCode = findViewById(R.id.img_verify_code);
-
+        cbProtocol = findViewById(R.id.cb_protocol);
 
         ImageView logoImageView = findViewById(R.id.logo_image_view);
         Glide.with(this).load("https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/logo_trans.png").into(logoImageView);
@@ -101,6 +103,8 @@ public class LoginActivity extends AppCompatActivity {
         } else if (!validateVerifyCode(inputVerifyCode)) {
             Toast.makeText(this, "验证码错误，请重新输入！", Toast.LENGTH_SHORT).show();
             generateNewVerifyCode();
+        } else if (!cbProtocol.isChecked()) {
+            Toast.makeText(this, "请先阅读并同意用户协议和隐私政策！", Toast.LENGTH_SHORT).show();
         } else {
             Account temp = new Account(username, password, mContext);
             Intent intent;
@@ -126,8 +130,9 @@ public class LoginActivity extends AppCompatActivity {
         } else if (!validateVerifyCode(inputVerifyCode)) {
             Toast.makeText(this, "验证码错误，请重新输入！", Toast.LENGTH_SHORT).show();
             generateNewVerifyCode();
+        } else if (!cbProtocol.isChecked()) {
+            Toast.makeText(this, "请先阅读并同意用户协议和隐私政策！", Toast.LENGTH_SHORT).show();
         } else {
-            // 需要在此处进行实际的用户名和密码验证
             Account temp = new Account(username, password, mContext);
             boolean isLoginSuccessful = temp.verifyAccount();
 
