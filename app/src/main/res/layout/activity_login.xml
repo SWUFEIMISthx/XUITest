@@ -72,14 +72,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:hint="@string/tip_please_input_pwd"
-                android:inputType="number"
+                android:inputType="textPassword"
                 app:met_clearButton="true"
                 app:met_errorMessage="@string/tip_password_error"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="@string/title_password"
                 app:met_regexp="@string/regex_password" />
 
+            <ImageView
+                android:id="@+id/iv_show_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:padding="10dp"
+                android:src="@drawable/ic_eye"
+                app:tint="?attr/colorAccent" />
         </FrameLayout>
+
 
         <FrameLayout
             android:id="@+id/fl_verify_code"
@@ -150,6 +159,13 @@
         </FrameLayout>
 
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/cb_remember_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="记住密码"
+        android:layout_marginTop="8dp"/>
 
     <com.xuexiang.xui.widget.textview.supertextview.SuperButton
         android:id="@+id/btn_login"

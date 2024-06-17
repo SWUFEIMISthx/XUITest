@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
 
+
+
     <application
         android:name=".TestXUI"
         android:allowBackup="true"

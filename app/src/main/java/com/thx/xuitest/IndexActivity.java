@@ -17,6 +17,7 @@ public class IndexActivity extends AppCompatActivity {
     private Fragment fg_order;
     private Fragment fg_shop_car;
     private Fragment fg_bill;
+    private Fragment fg_feedback; // 新增的Fragment
     private FragmentManager fragmentManager;
     private static final String TAG = "IndexActivity";
 
@@ -65,6 +66,13 @@ public class IndexActivity extends AppCompatActivity {
             } else {
                 fragmentTransaction.show(fg_shop_car);
             }
+        } else if (checkedId == R.id.rb_feedback) { // 新增的Fragment
+            if (fg_feedback == null) {
+                fg_feedback = new FeedbackFragment();
+                fragmentTransaction.add(R.id.ly_content, fg_feedback);
+            } else {
+                fragmentTransaction.show(fg_feedback);
+            }
         }
         fragmentTransaction.commit();
     }
@@ -86,6 +94,9 @@ public class IndexActivity extends AppCompatActivity {
         }
         if (fg_shop_car != null) {
             fragmentTransaction.hide(fg_shop_car);
+        }
+        if (fg_feedback != null) { // 新增的Fragment
+            fragmentTransaction.hide(fg_feedback);
         }
     }
 }

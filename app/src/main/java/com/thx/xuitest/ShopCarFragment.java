@@ -185,6 +185,7 @@ public class ShopCarFragment extends Fragment {
                 OrderedDrinks.clearOrdered_array();
                 refreshing();
                 buyDialog.dismiss();
+                Toast.makeText(getContext(), "支付成功", Toast.LENGTH_SHORT).show();
             }
         });
 

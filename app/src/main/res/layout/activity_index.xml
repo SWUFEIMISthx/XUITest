@@ -62,6 +62,22 @@
             android:textSize="12sp"
             android:paddingTop="8dp"
             tools:ignore="VisualLintButtonSize" />
+
+        <RadioButton
+            android:id="@+id/rb_feedback"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/shop_car"
+            android:drawablePadding="2dp"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:text="@string/feedback"
+            android:textSize="12sp"
+            tools:ignore="VisualLintButtonSize" />
     </RadioGroup>
+
+
 
 </RelativeLayout>
