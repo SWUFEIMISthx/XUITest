@@ -85,7 +85,7 @@ public class RightAdapter extends RecyclerView.Adapter<RightAdapter.RightViewHol
 
         @SuppressLint({"SetTextI18n", "DefaultLocale"})
         void bindBean(final Drinks bean) {
-            drinkName.setText(bean.get_name() + "  #" + (bean.get_number() + 1));
+            drinkName.setText(bean.get_name());  // 移除序号
             if (bean.get_type() != null) {
                 drinkType.setText(bean.get_type());
             } else {

@@ -89,7 +89,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         @SuppressLint({"SetTextI18n", "DefaultLocale"})
         void bindBean(final OrderedDrinks bean) {
-            drink_name.setText(bean.get_drink().get_name() + " #" + (bean.get_drink().get_number() + 1));
+            drink_name.setText(bean.get_drink().get_name());
 
             // 使用 Glide 加载图片
             Glide.with(drink_image.getContext())

@@ -241,7 +241,7 @@ public class OrderFragment extends Fragment {
                 16f, "纯牛奶，茉莉花茶", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E5%A5%B6%E8%8C%B6%E6%8E%A8%E8%8D%90_%E8%8C%89%E8%8E%89%E9%A6%99.jpg"));
 
         lemon_teas_array.add(new Drinks("茶冻", "\uD83E\uDDE1 加点小料",
-                1f, "搭配小料更好喝哦", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E5%8A%A0%E7%82%B9%E5%B0%8F%E6%96%99_%E8%8C%B6%E5%86%BB.jpg"));
+                1f, "搭配小料更好喝哦", "https://images-special.oss-cn-chengdu.aliyuncs.com/Android_Images/%E5%8A%A0%E7%82%B9%E5%B0%8F%E6%96%99_%E8%8C%B6%E5%86%89.jpg"));
         for(int i = 0;i < lemon_teas_array.size(); i++){
             Drinks temp = lemon_teas_array.get(i);
             if(temp.get_type() != null){
